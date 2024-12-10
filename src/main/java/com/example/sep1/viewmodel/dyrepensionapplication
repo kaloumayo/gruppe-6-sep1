@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public class DyrePensionSimplified {
+public class DyrePension {
 
     // Data struktur
     private static HashMap<String, ArrayList<String>> database = new HashMap<>();
