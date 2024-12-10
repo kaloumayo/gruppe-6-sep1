@@ -1,0 +1,75 @@
+import javax.swing.*;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+public class DyrePensionSimplified {
+
+    // Data struktur
+    private static HashMap<String, ArrayList<String>> database = new HashMap<>();
+
+    public static void main(String[] args) {
+        // Tilføjer dummy data
+        populateDummyData();
+
+        // Simpel menu
+        while (true) {
+            String[] options = {"Aflevering", "Afhentning", "Se liste", "Afslut"};
+            int choice = JOptionPane.showOptionDialog(null, "Vælg en handling", "DyrePension",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+            if (choice == 0) registrerAflevering();
+            else if (choice == 1) registrerAfhentning();
+            else if (choice == 2) seListe();
+            else break;
+        }
+    }
+
+    private static void registrerAflevering() {
+        String phone = JOptionPane.showInputDialog("Indtast kundens telefonnummer:");
+        if (phone == null || !database.containsKey(phone)) {
+            JOptionPane.showMessageDialog(null, "Ingen dyr fundet for dette telefonnummer.");
+            return;
+        }
+        ArrayList<String> animals = database.get(phone);
+        StringBuilder result = new StringBuilder("Dyr klar til aflevering:\n");
+        for (String animal : animals) result.append(animal).append("\n");
+
+        JOptionPane.showMessageDialog(null, result.toString());
+        JOptionPane.showMessageDialog(null, "Status opdateret til 'I pasning'.");
+    }
+
+    private static void registrerAfhentning() {
+        String phone = JOptionPane.showInputDialog("Indtast kundens telefonnummer:");
+        if (phone == null || !database.containsKey(phone)) {
+            JOptionPane.showMessageDialog(null, "Ingen dyr fundet for dette telefonnummer.");
+            return;
+        }
+        ArrayList<String> animals = database.get(phone);
+        StringBuilder result = new StringBuilder("Dyr i pasning:\n");
+        for (String animal : animals) result.append(animal).append("\n");
+
+        JOptionPane.showMessageDialog(null, result.toString());
+        JOptionPane.showMessageDialog(null, "Status opdateret til 'Afhentet'.");
+    }
+
+    private static void seListe() {
+        StringBuilder result = new StringBuilder("Liste over alle dyr:\n");
+        for (String phone : database.keySet()) {
+            result.append("Kunde: ").append(phone).append("\n");
+            ArrayList<String> animals = database.get(phone);
+            for (String animal : animals) result.append("- ").append(animal).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, result.toString());
+    }
+
+    private static void populateDummyData() {
+        ArrayList<String> animals1 = new ArrayList<>();
+        animals1.add("Kaninen Bella");
+        animals1.add("Marsvinet Oliver");
+        database.put("12345678", animals1);
+
+        ArrayList<String> animals2 = new ArrayList<>();
+        animals2.add("Hamsteren Max");
+        database.put("87654321", animals2);
+    }
+}
